@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="14"
     tools:context=".MainActivity">
 
     <TextView
@@ -23,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:weightSum="4">
 
         <Button
             android:id="@+id/button_allDelete"
@@ -75,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:weightSum="4">
 
         <Button
             android:id="@+id/button_7"
@@ -127,7 +130,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:weightSum="4">
 
         <Button
             android:id="@+id/button_4"
@@ -179,7 +183,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:weightSum="4">
 
         <Button
             android:id="@+id/button_1"
@@ -231,7 +236,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:weightSum="4.10">
 
         <Button
             android:id="@+id/button_0"
