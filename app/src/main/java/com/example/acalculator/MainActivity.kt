@@ -19,161 +19,88 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        binding.button0.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 0")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "0"
-            } else {
-                binding.textVisor.append("0")
-            }
-        }
 
-        binding.button1.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 1")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "1"
-            } else {
-                binding.textVisor.append("1")
-            }
-        }
+        //Listeners Buttons
+        binding.button0.setOnClickListener { onClickSymbolNumber("0") }
 
-        binding.button2.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 2")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "2"
-            } else {
-                binding.textVisor.append("2")
-            }
-        }
+        binding.button1.setOnClickListener { onClickSymbolNumber("1") }
 
-        binding.button3.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 3")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "3"
-            } else {
-                binding.textVisor.append("3")
-            }
-        }
+        binding.button2.setOnClickListener { onClickSymbolNumber("2") }
 
-        binding.button4.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 4")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "4"
-            } else {
-                binding.textVisor.append("4")
-            }
-        }
+        binding.button3.setOnClickListener { onClickSymbolNumber("3") }
 
-        binding.button5.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 5")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "5"
-            } else {
-                binding.textVisor.append("5")
-            }
-        }
+        binding.button4.setOnClickListener { onClickSymbolNumber("4") }
 
-        binding.button6.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 6")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "6"
-            } else {
-                binding.textVisor.append("6")
-            }
-        }
+        binding.button5.setOnClickListener { onClickSymbolNumber("5") }
 
-        binding.button7.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 7")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "7"
-            } else {
-                binding.textVisor.append("7")
-            }
-        }
+        binding.button6.setOnClickListener { onClickSymbolNumber("6") }
 
-        binding.button8.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 8")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "8"
-            } else {
-                binding.textVisor.append("8")
-            }
-        }
+        binding.button7.setOnClickListener { onClickSymbolNumber("7") }
 
-        binding.button9.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão 9")
-            if(binding.textVisor.text.last() == '0') {
-                binding.textVisor.text = "9"
-            } else {
-                binding.textVisor.append("9")
-            }
-        }
+        binding.button8.setOnClickListener { onClickSymbolNumber("8") }
 
-        binding.buttonDiv.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão /")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-                binding.textVisor.append("/")
-            }
-        }
+        binding.button9.setOnClickListener { onClickSymbolNumber("9") }
 
-        binding.buttonModulo.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão %")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-                binding.textVisor.append("%")
-            }
-        }
+        binding.buttonDiv.setOnClickListener { onClickSymbolOperation("/") }
 
-        binding.buttonMulti.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão *")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-                binding.textVisor.append("*")
-            }
-        }
+        binding.buttonModulo.setOnClickListener { onClickSymbolOperation("%") }
 
-        binding.buttonSub.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão -")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-                binding.textVisor.append("-")
-            }
-        }
+        binding.buttonMulti.setOnClickListener {  onClickSymbolOperation("*")  }
 
-        binding.buttonAddition.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão +")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-                binding.textVisor.append("+")
-            }
-        }
+        binding.buttonSub.setOnClickListener { onClickSymbolOperation("-") }
 
-        binding.buttonDot.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão .")
-            if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.') && !binding.textVisor.text.contains('.')) {
-                binding.textVisor.append(".")
-            }
-        }
+        binding.buttonAddition.setOnClickListener { onClickSymbolOperation("+") }
 
-        binding.buttonEquals.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão =")
-            val expression = ExpressionBuilder(
-                binding.textVisor.text.toString()
-            ).build()
-            binding.textVisor.text = expression.evaluate().toString()
-            Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
-        }
+        binding.buttonDot.setOnClickListener {onClickSymbolOperation(".") }
 
-        binding.buttonAllDelete.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão C")
+        binding.buttonEquals.setOnClickListener {onClickEquals()}
+
+        binding.buttonAllDelete.setOnClickListener {onClickSymbolDelete("C") }
+
+        binding.buttonFirstDelete.setOnClickListener { onClickSymbolDelete("<") }
+        //Listeners Buttons
+
+    } //onStart
+
+
+    //Funções privadas
+    private fun onClickSymbolNumber(symbol:String) {
+        Log.i(TAG, "Cliquei no botão $symbol")
+        if(binding.textVisor.text.last() == '0' && binding.textVisor.text.length < 2) {
+            binding.textVisor.text = symbol
+        } else {
+            binding.textVisor.append(symbol)
+        }
+    }
+
+    private fun onClickSymbolOperation(symbol:String) {
+        Log.i(TAG, "Cliquei no botão $symbol")
+        if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
+            binding.textVisor.append(symbol)
+        }
+    }
+
+    private fun onClickSymbolDelete(symbol:String) {
+        Log.i(TAG, "Cliquei no botão $symbol")
+        if (symbol == "C") {
             binding.textVisor.text = "0"
-        }
-
-        binding.buttonFirstDelete.setOnClickListener {
-            Log.i(TAG, "Cliquei no botão <")
+        } else if (symbol == "<"){
             if(binding.textVisor.text.length != 1 && binding.textVisor.text[0] != '0') {
                 binding.textVisor.text = binding.textVisor.text.substring(0, binding.textVisor.text.length-1)
             } else {
                 binding.textVisor.text = "0"
             }
         }
-
     }
 
-}
+    private fun onClickEquals() {
+        Log.i(TAG, "Cliquei no botão =")
+        val expression = ExpressionBuilder(
+            binding.textVisor.text.toString()
+        ).build()
+        binding.textVisor.text = expression.evaluate().toString()
+        Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
+    }
+    //Funções privadas
+
+} // AppCompactActivity
