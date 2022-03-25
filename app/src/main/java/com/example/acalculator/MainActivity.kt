@@ -9,6 +9,7 @@ import net.objecthunter.exp4j.ExpressionBuilder
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = MainActivity::class.java.simpleName
+    private val listaHistorico = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +99,9 @@ class MainActivity : AppCompatActivity() {
         val expression = ExpressionBuilder(
             binding.textVisor.text.toString()
         ).build()
-        binding.textVisor.text = expression.evaluate().toString()
+        val expressao = expression.evaluate().toString()
+        binding.textVisor.text = expressao
+        listaHistorico.add(expressao)
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
     }
     //Funções privadas
