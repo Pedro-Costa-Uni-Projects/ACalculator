@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
 
         //Listeners Buttons
+        binding.button00?.setOnClickListener { onClickSymbolNumber("00") }
+
         binding.button0.setOnClickListener { onClickSymbolNumber("0") }
 
         binding.button1.setOnClickListener { onClickSymbolNumber("1") }
@@ -96,12 +98,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun onClickEquals() {
         Log.i(TAG, "Cliquei no botão =")
+        val valorFinal : String
         val expression = ExpressionBuilder(
             binding.textVisor.text.toString()
         ).build()
-        val expressao = expression.evaluate().toString()
-        binding.textVisor.text = expressao
-        listaHistorico.add(expressao)
+        val expressao = expression.evaluate()
+        valorFinal = if(expressao % 1 == 0.0) {
+            expressao.toInt().toString()
+        } else {
+            expressao.toString()
+        }
+        binding.textVisor.text = valorFinal
+        listaHistorico.add(valorFinal)
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
     }
     //Funções privadas
