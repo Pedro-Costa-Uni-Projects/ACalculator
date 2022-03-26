@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.acalculator.databinding.ItemExpressionBinding
 
-class HistoryAdapter(private val onOperatonClick: (String) -> Unit,
-                     private var items: List<String> = listOf()) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(private val onOperationClick: (OperationUi) -> Unit,private val onOperationLongClick: (OperationUi) -> Unit,
+                     private var items: List<OperationUi> = listOf()) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     class HistoryViewHolder (val binding: ItemExpressionBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -22,16 +22,20 @@ class HistoryAdapter(private val onOperatonClick: (String) -> Unit,
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.itemView.setOnClickListener{
-            onOperatonClick(items[position])
+            onOperationClick(items[position])
         }
-        val parts = items[position]?.split("=")
-        holder.binding.textExpression.text = parts?.get(0)
-        holder.binding.textResult.text = parts?.get(1)
+        holder.itemView.setOnLongClickListener{
+            onOperationLongClick(items[position])
+            true
+        }
+        val operation = items[position]
+        holder.binding.textExpression.text = operation.expressao
+        holder.binding.textResult.text = operation.resultado
     }
 
     override fun getItemCount() = items.size
 
-    fun updateItems(items: List<String>) {
+    fun updateItems(items: List<OperationUi>) {
         this.items = items
         notifyDataSetChanged()
     }

@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +14,8 @@ import net.objecthunter.exp4j.ExpressionBuilder
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = MainActivity::class.java.simpleName
-    private val operations = mutableListOf<String>()
-    private val adapter = HistoryAdapter(::onOperationClick)
+    private val operations = mutableListOf<OperationUi>()
+    private val adapter = HistoryAdapter(::onOperationClick, ::onOperationLongClick)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i(TAG, "O método onCreate foi invocado")
@@ -130,14 +131,18 @@ class MainActivity : AppCompatActivity() {
         } else {
             expressao.toString()
         }
-        operations.add(binding.textVisor.text.toString() + "=" + valorFinal)
+        operations.add(OperationUi(binding.textVisor.text.toString(), valorFinal))
         binding.textVisor.text = valorFinal
         adapter.updateItems(operations)
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
     }
 
-    private fun onOperationClick(operation: String) {
-        Toast.makeText(this, operation, Toast.LENGTH_LONG).show()
+    private fun onOperationClick(operation: OperationUi) {
+        Toast.makeText(this, operation.toString(), Toast.LENGTH_LONG).show()
+    }
+
+    private fun onOperationLongClick(operation: OperationUi) {
+        Toast.makeText(this, operation.data(), Toast.LENGTH_LONG).show()
     }
     //Funções privadas
 
