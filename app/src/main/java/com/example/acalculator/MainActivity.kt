@@ -1,11 +1,9 @@
 package com.example.acalculator
 
 import android.content.res.Configuration
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.ActivityMainBinding
