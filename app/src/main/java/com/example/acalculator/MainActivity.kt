@@ -1,25 +1,45 @@
 package com.example.acalculator
 
+import android.content.res.Configuration
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsets
+import android.view.WindowManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.ActivityMainBinding
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = MainActivity::class.java.simpleName
-    private val listaHistorico = mutableListOf<String>()
+    private val operations = mutableListOf<String>()
+    private val adapter = HistoryAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i(TAG, "O método onCreate foi invocado")
         super.onCreate(savedInstanceState)
+
+        //Fora das Fichas - Retirar barra de notificações no modo horizontal - Ver flag descontinuada
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        //Fora das Fichas - Retirar barra de notificações no modo horizontal - Ver flag descontinuada
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
+    override fun onDestroy() {
+        Log.i(TAG, "O método onDestroy foi invocado")
+        super.onDestroy()
+    }
+
     override fun onStart() {
         super.onStart()
-
 
         //Listeners Buttons
         binding.button00?.setOnClickListener { onClickSymbolNumber("00") }
@@ -62,6 +82,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonFirstDelete.setOnClickListener { onClickSymbolDelete("<") }
         //Listeners Buttons
+
+        binding.rvHistoric?.layoutManager = LinearLayoutManager(this)
+        binding.rvHistoric?.adapter = adapter
 
     } //onStart
 
@@ -108,8 +131,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             expressao.toString()
         }
+        operations.add(binding.textVisor.text.toString() + "=" + valorFinal)
         binding.textVisor.text = valorFinal
-        listaHistorico.add(valorFinal)
+        adapter.updateItems(operations)
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
     }
     //Funções privadas
