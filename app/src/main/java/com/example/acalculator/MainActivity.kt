@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.ActivityMainBinding
 import net.objecthunter.exp4j.ExpressionBuilder
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val TAG = MainActivity::class.java.simpleName
     private val operations = mutableListOf<String>()
-    private val adapter = HistoryAdapter()
+    private val adapter = HistoryAdapter(::onOperationClick)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i(TAG, "O método onCreate foi invocado")
@@ -133,6 +134,10 @@ class MainActivity : AppCompatActivity() {
         binding.textVisor.text = valorFinal
         adapter.updateItems(operations)
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
+    }
+
+    private fun onOperationClick(operation: String) {
+        Toast.makeText(this, operation, Toast.LENGTH_LONG).show()
     }
     //Funções privadas
 
