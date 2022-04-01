@@ -17,7 +17,7 @@
         android:background="@color/greyMid"
         android:textColor="@color/white"
         android:text="0"
-    />
+        />
 
     <LinearLayout
         android:weightSum="10"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:padding="16dp"
 
-        />
+            />
 
         <LinearLayout
             android:layout_weight="8"
