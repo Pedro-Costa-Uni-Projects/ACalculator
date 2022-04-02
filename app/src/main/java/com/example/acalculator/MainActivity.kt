@@ -3,7 +3,6 @@ package com.example.acalculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.acalculator.databinding.ActivityMainBinding
@@ -17,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(!screenRotated(savedInstanceState)) {
+            //Forçar aqui o titulo poia a na primeira vez que se abre a app não aparece o novo titulo
+            title = "Calculadora"
             NavigationManager.goToCalculatorFragment(supportFragmentManager)
         }
     }
@@ -46,13 +47,11 @@ class MainActivity : AppCompatActivity() {
     private fun onClickNavigationItem(item: MenuItem) : Boolean {
         when(item.itemId) {
             R.id.nav_calculator -> {
-                title = "Calculadora"
                 NavigationManager.goToCalculatorFragment(
                     supportFragmentManager
                 )
             }
             R.id.nav_history -> {
-                title = "@strings/Historico"
                 NavigationManager.goToCalculatorFragment(
                     supportFragmentManager
                 )

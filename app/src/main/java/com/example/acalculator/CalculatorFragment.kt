@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.FragmentCalculatorBinding
 import net.objecthunter.exp4j.ExpressionBuilder
@@ -27,6 +28,7 @@ class CalculatorFragment : Fragment() {
     }
 
     override fun onStart() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
         super.onStart()
 
         //Listeners Buttons
@@ -74,10 +76,8 @@ class CalculatorFragment : Fragment() {
         binding.rvHistoric?.layoutManager = LinearLayoutManager(activity as Context)
         binding.rvHistoric?.adapter = adapter
 
-    } //onStart
+    }
 
-
-    //Funções privadas
     private fun onClickSymbolNumber(symbol:String) {
         Log.i(TAG, "Cliquei no botão $symbol")
         if(binding.textVisor.text.last() == '0' && binding.textVisor.text.length < 2) {
@@ -132,6 +132,5 @@ class CalculatorFragment : Fragment() {
     private fun onOperationLongClick(operation: OperationUi) {
         Toast.makeText(activity as Context, operation.data(), Toast.LENGTH_LONG).show()
     }
-    //Funções privadas
 
 }
