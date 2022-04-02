@@ -16,8 +16,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if(!screenRotated(savedInstanceState)) {
-            //Forçar aqui o titulo poia a na primeira vez que se abre a app não aparece o novo titulo
-            title = "Calculadora"
             NavigationManager.goToCalculatorFragment(supportFragmentManager)
         }
     }
@@ -26,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         setSupportActionBar(binding.toolbar)
         setupDrawerMenu()
+
     }
 
     private fun screenRotated(savedInstanceState: Bundle?) : Boolean {
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             R.id.nav_history -> {
-                NavigationManager.goToCalculatorFragment(
+                NavigationManager.goToHistoryFragment(
                     supportFragmentManager
                 )
             }

@@ -28,7 +28,7 @@ class CalculatorFragment : Fragment() {
     }
 
     override fun onStart() {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
+        //(requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
         super.onStart()
 
         //Listeners Buttons

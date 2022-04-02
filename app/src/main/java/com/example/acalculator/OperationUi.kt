@@ -1,13 +1,16 @@
 package com.example.acalculator
 
 import android.os.Build
+import android.os.Parcelable
 import androidx.annotation.RequiresApi
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
 
-class OperationUi (val expressao: String, val resultado: String) {
+@Parcelize
+class OperationUi (val expressao: String, val resultado: String) : Parcelable {
 
     @RequiresApi(Build.VERSION_CODES.O)
     var timestamp : Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
