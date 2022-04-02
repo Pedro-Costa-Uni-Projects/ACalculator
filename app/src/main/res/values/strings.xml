@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ACalculator</string>
+    <string name="calculator">Calculadora</string>
+    <string name="history">Histórico</string>
+    <string name="drawer_open">Aberto</string>
+    <string name="drawer_close">Fechado</string>
 </resources>

@@ -13,5 +13,6 @@ object NavigationManager {
 
     fun goToCalculatorFragment(fm: FragmentManager) {
         placeFragment(fm, CalculatorFragment())
+
     }
 }
