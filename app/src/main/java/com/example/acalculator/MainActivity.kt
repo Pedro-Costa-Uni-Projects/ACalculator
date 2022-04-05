@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Tenho que meter aqui para da primeira vez que abre a app ter logo o nome
+        title = "Calculadora"
+
         if(!screenRotated(savedInstanceState)) {
             NavigationManager.goToCalculatorFragment(supportFragmentManager)
         }
@@ -51,8 +54,9 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             R.id.nav_history -> {
+                val op : ArrayList<OperationUi>? =intent?.getParcelableArrayListExtra(CALCULATOR_OPERATIONS)
                 NavigationManager.goToHistoryFragment(
-                    supportFragmentManager
+                    supportFragmentManager, op
                 )
             }
         }

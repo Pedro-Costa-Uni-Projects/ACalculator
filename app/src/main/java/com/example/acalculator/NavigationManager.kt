@@ -16,8 +16,8 @@ object NavigationManager {
 
     }
 
-    fun goToHistoryFragment(fm: FragmentManager) {
-        placeFragment(fm, HistoryFragment())
+    fun goToHistoryFragment(fm: FragmentManager, op: ArrayList<OperationUi>?) {
+        placeFragment(fm, HistoryFragment.newInstance(op))
 
     }
 }

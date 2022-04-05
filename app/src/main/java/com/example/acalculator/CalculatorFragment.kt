@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.FragmentCalculatorBinding
 import net.objecthunter.exp4j.ExpressionBuilder
 
+const val CALCULATOR_OPERATIONS = "operations"
+
 class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
     private val TAG = MainActivity::class.java.simpleName
-    private val operations = mutableListOf<OperationUi>()
+    private var operations : ArrayList<OperationUi>? = null
     private val adapter = HistoryAdapter(::onOperationClick, ::onOperationLongClick)
 
     override fun onCreateView(
@@ -28,7 +30,13 @@ class CalculatorFragment : Fragment() {
     }
 
     override fun onStart() {
-        //(requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
+        //buscar da main activity a lista de operações, se não ouver nada antes fica vazia
+        operations = activity?.intent?.getParcelableArrayListExtra(CALCULATOR_OPERATIONS)
+        if(operations == null) {
+            operations = ArrayList()
+        }
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
         super.onStart()
 
         //Listeners Buttons
@@ -119,10 +127,12 @@ class CalculatorFragment : Fragment() {
         } else {
             expressao.toString()
         }
-        operations.add(OperationUi(binding.textVisor.text.toString(), valorFinal))
+        operations?.add(OperationUi(binding.textVisor.text.toString(), valorFinal))
         binding.textVisor.text = valorFinal
-        adapter.updateItems(operations)
+        operations?.let { adapter.updateItems(it) }
         Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
+        //passar para a main activity a lista de operações
+        activity?.intent?.putParcelableArrayListExtra(CALCULATOR_OPERATIONS, operations)
     }
 
     private fun onOperationClick(operation: OperationUi) {
