@@ -36,7 +36,7 @@ class CalculatorFragment : Fragment() {
             operations = ArrayList()
         }
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Calculadora"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.calculator)
         super.onStart()
 
         //Listeners Buttons

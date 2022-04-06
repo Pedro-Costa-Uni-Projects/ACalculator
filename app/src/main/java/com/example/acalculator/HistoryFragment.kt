@@ -39,7 +39,7 @@ class HistoryFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Histórico"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.history)
         binding.rvHistoricFragment.layoutManager = LinearLayoutManager(activity as Context)
         operations?.let { adapter.updateItems(it) }
         binding.rvHistoricFragment.adapter = adapter
@@ -62,8 +62,11 @@ class HistoryFragment : Fragment() {
             }
     }
 
+    //Vai para o ecrã de detalhes
     private fun onOperationClick(operation: OperationUi) {
-        Toast.makeText(activity as Context, operation.toString(), Toast.LENGTH_LONG).show()
+        NavigationManager.goToOperationDetailFragment(
+            parentFragmentManager, operation
+        )
     }
 
     private fun onOperationLongClick(operation: OperationUi) {

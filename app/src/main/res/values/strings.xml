@@ -2,6 +2,11 @@
     <string name="app_name">ACalculator</string>
     <string name="calculator">Calculadora</string>
     <string name="history">Histórico</string>
+    <string name="details">Detalhes</string>
     <string name="drawer_open">Aberto</string>
     <string name="drawer_close">Fechado</string>
+    <!--Operation Details-->
+    <string name="expressao">Expressão: %1$s</string>
+    <string name="resultado">Resultado: %1$s</string>
+    <string name="data">Data:\n%1$s</string>
 </resources>
