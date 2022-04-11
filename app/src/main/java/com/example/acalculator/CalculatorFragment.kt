@@ -9,14 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.FragmentCalculatorBinding
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val CALCULATOR_OPERATIONS = "operations"
 
 class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
+    lateinit var viewModel: CalculatorViewModel
     private val TAG = MainActivity::class.java.simpleName
     private var operations : ArrayList<OperationUi>? = null
     private val adapter = HistoryAdapter(::onOperationClick, ::onOperationLongClick)
@@ -26,6 +30,8 @@ class CalculatorFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_calculator, container, false)
         binding = FragmentCalculatorBinding.bind(view)
+        viewModel = ViewModelProvider(this).get(CalculatorViewModel::class.java)
+        binding.textVisor.text = viewModel.getDisplayView()
         return binding.root
     }
 
@@ -40,99 +46,102 @@ class CalculatorFragment : Fragment() {
         super.onStart()
 
         //Listeners Buttons
-        binding.button00?.setOnClickListener { onClickSymbolNumber("00") }
+        binding.button00?.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("00")
+        }
 
-        binding.button0.setOnClickListener { onClickSymbolNumber("0") }
+        binding.button0.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("0")
+        }
 
-        binding.button1.setOnClickListener { onClickSymbolNumber("1") }
+        binding.button1.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("1")
+        }
 
-        binding.button2.setOnClickListener { onClickSymbolNumber("2") }
+        binding.button2.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("2")
+        }
 
-        binding.button3.setOnClickListener { onClickSymbolNumber("3") }
+        binding.button3.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("3")
+        }
 
-        binding.button4.setOnClickListener { onClickSymbolNumber("4") }
+        binding.button4.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("4")
+        }
 
-        binding.button5.setOnClickListener { onClickSymbolNumber("5") }
+        binding.button5.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("5")
+        }
 
-        binding.button6.setOnClickListener { onClickSymbolNumber("6") }
+        binding.button6.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("6")
+        }
 
-        binding.button7.setOnClickListener { onClickSymbolNumber("7") }
+        binding.button7.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("7")
+        }
 
-        binding.button8.setOnClickListener { onClickSymbolNumber("8") }
+        binding.button8.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("8")
+        }
 
-        binding.button9.setOnClickListener { onClickSymbolNumber("9") }
+        binding.button9.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolNumber("9")
+        }
 
-        binding.buttonDiv.setOnClickListener { onClickSymbolOperation("/") }
+        binding.buttonDiv.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation("/")
+        }
 
-        binding.buttonModulo.setOnClickListener { onClickSymbolOperation("%") }
+        binding.buttonModulo.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation("%")
+        }
 
-        binding.buttonMulti.setOnClickListener {  onClickSymbolOperation("*")  }
+        binding.buttonMulti.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation("*")
+        }
 
-        binding.buttonSub.setOnClickListener { onClickSymbolOperation("-") }
+        binding.buttonSub.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation("-")
+        }
 
-        binding.buttonAddition.setOnClickListener { onClickSymbolOperation("+") }
+        binding.buttonAddition.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation("+")
+        }
 
-        binding.buttonDot.setOnClickListener {onClickSymbolOperation(".") }
+        binding.buttonDot.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolOperation(".")
+        }
 
-        binding.buttonEquals.setOnClickListener {onClickEquals()}
+        binding.buttonEquals.setOnClickListener {
+            // A melhorar na proxima aula 7
+            val temp = binding.textVisor.text
+            // A melhorar na proxima aula 7
 
-        binding.buttonAllDelete.setOnClickListener {onClickSymbolDelete("C") }
+            binding.textVisor.text = viewModel.onClickEquals()
 
-        binding.buttonFirstDelete.setOnClickListener { onClickSymbolDelete("<") }
+            // A melhorar na proxima aula 7
+            val toInsert = OperationUi(temp as String, binding.textVisor.text as String, Date().time)
+            operations!!.add(toInsert)
+            operations?.let { adapter.updateItems(it) }
+            activity?.intent?.putParcelableArrayListExtra(CALCULATOR_OPERATIONS, operations)
+            // A melhorar na proxima aula 7
+
+        }
+
+        binding.buttonAllDelete.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolDelete("C")
+        }
+
+        binding.buttonFirstDelete.setOnClickListener {
+            binding.textVisor.text = viewModel.onClickSymbolDelete("<")
+        }
         //Listeners Buttons
 
         binding.rvHistoric?.layoutManager = LinearLayoutManager(activity as Context)
         binding.rvHistoric?.adapter = adapter
 
-    }
-
-    private fun onClickSymbolNumber(symbol:String) {
-        Log.i(TAG, "Cliquei no botão $symbol")
-        if(binding.textVisor.text.last() == '0' && binding.textVisor.text.length < 2) {
-            binding.textVisor.text = symbol
-        } else {
-            binding.textVisor.append(symbol)
-        }
-    }
-
-    private fun onClickSymbolOperation(symbol:String) {
-        Log.i(TAG, "Cliquei no botão $symbol")
-        if(binding.textVisor.text.last() !in arrayOf('/','%','*','-','+','.')) {
-            binding.textVisor.append(symbol)
-        }
-    }
-
-    private fun onClickSymbolDelete(symbol:String) {
-        Log.i(TAG, "Cliquei no botão $symbol")
-        if (symbol == "C") {
-            binding.textVisor.text = "0"
-        } else if (symbol == "<"){
-            if(binding.textVisor.text.length != 1 && binding.textVisor.text[0] != '0') {
-                binding.textVisor.text = binding.textVisor.text.substring(0, binding.textVisor.text.length-1)
-            } else {
-                binding.textVisor.text = "0"
-            }
-        }
-    }
-
-    private fun onClickEquals() {
-        Log.i(TAG, "Cliquei no botão =")
-        val valorFinal : String
-        val expression = ExpressionBuilder(
-            binding.textVisor.text.toString()
-        ).build()
-        val expressao = expression.evaluate()
-        valorFinal = if(expressao % 1 == 0.0) {
-            expressao.toInt().toString()
-        } else {
-            expressao.toString()
-        }
-        operations?.add(OperationUi(binding.textVisor.text.toString(), valorFinal))
-        binding.textVisor.text = valorFinal
-        operations?.let { adapter.updateItems(it) }
-        Log.i(TAG, "O resultado da expressão é ${binding.textVisor.text}")
-        //passar para a main activity a lista de operações
-        activity?.intent?.putParcelableArrayListExtra(CALCULATOR_OPERATIONS, operations)
     }
 
     private fun onOperationClick(operation: OperationUi) {
