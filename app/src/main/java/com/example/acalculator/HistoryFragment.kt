@@ -2,12 +2,14 @@ package com.example.acalculator
 
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.FragmentHistoryBinding
@@ -70,6 +72,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun onOperationLongClick(operation: OperationUi) {
-        Toast.makeText(activity as Context, operation.data(), Toast.LENGTH_LONG).show()
+        operations?.removeAll { op -> op.timestamp == operation.timestamp }
+        operations?.let { adapter.updateItems(it) }
     }
 }
