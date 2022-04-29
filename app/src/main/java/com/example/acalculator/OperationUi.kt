@@ -13,7 +13,7 @@ import java.time.ZoneOffset
 import java.util.*
 
 @Parcelize
-class OperationUi (val expressao: String, val resultado: String, val timestamp: Long) : Parcelable {
+class OperationUi (val uuid: String, val expressao: String, val resultado: String, val timestamp: Long) : Parcelable {
 
     @RequiresApi(Build.VERSION_CODES.O)
     var id = ZoneId.of("Europe/London").getRules().getOffset(Instant.now())

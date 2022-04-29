@@ -4,10 +4,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.util.*
 
-class CalculatorModel {
+class CalculatorModel(private val dao: OperationDao) {
     var display: String = "0"
-    private val history = mutableListOf<Operation>()
 
     fun insertSymbolNumber(symbol: String) : String {
         if(display.last() == '0' && display.length < 2) {
@@ -38,7 +38,7 @@ class CalculatorModel {
         return display
     }
 
-    fun performOperation() : String {
+    fun performOperation(onFinished: () -> Unit) : String {
         val valorFinal : String
         val expression = ExpressionBuilder(display).build()
         val expressao = expression.evaluate()
@@ -47,21 +47,31 @@ class CalculatorModel {
         } else {
             expressao.toString()
         }
-        history.add(Operation(display, valorFinal))
+
         display = valorFinal
+
+        val operation = OperationRoom(
+            expression = display, result = valorFinal, timestamp = Date().time
+        )
         CoroutineScope(Dispatchers.IO).launch {
-            addToHistory(display, valorFinal)
+            dao.insert(operation)
+            onFinished()
         }
         return valorFinal
     }
 
+    /* estava a dar erro, não sei se é para eliminar
     private fun addToHistory(expression: String, result: String) {
         history.add(Operation(expression, result))
     }
+    */
 
-    fun getAllOperations(callback: (List<Operation>) -> Unit) {
+    fun getAllOperations(onFinished: (List<OperationUi>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            callback(history.toList())
+            val operations = dao.getAll()
+            onFinished(operations.map {
+                OperationUi(it.uuid, it.expression, it.result, it.timestamp)
+            })
         }
     }
 }
