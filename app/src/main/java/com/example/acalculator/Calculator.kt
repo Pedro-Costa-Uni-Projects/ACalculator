@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.*
 
-class CalculatorModel(private val dao: OperationDao) {
+class Calculator(private val dao: OperationDao) {
     var display: String = "0"
 
     fun insertSymbolNumber(symbol: String) : String {

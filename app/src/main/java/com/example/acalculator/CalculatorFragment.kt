@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.acalculator.databinding.FragmentCalculatorBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.*
 import kotlin.collections.ArrayList
@@ -119,14 +122,14 @@ class CalculatorFragment : Fragment() {
             val temp = binding.textVisor.text
             // A melhorar na proxima aula 7
 
-            binding.textVisor.text = viewModel.onClickEquals()
-
-            // A melhorar na proxima aula 7
-            val toInsert = OperationUi(temp as String, binding.textVisor.text as String, Date().time)
-            operations!!.add(toInsert)
-            operations?.let { adapter.updateItems(it) }
-            activity?.intent?.putParcelableArrayListExtra(CALCULATOR_OPERATIONS, operations)
-            // A melhorar na proxima aula 7
+            binding.textVisor.text = viewModel.onClickEquals{
+                CoroutineScope(Dispatchers.Main).launch {
+                    val toInsert = OperationUi(UUID.randomUUID().toString(),temp as String, binding.textVisor.text as String, Date().time)
+                    operations!!.add(toInsert)
+                    operations?.let { adapter.updateItems(it) }
+                    activity?.intent?.putParcelableArrayListExtra(CALCULATOR_OPERATIONS, operations)
+                }
+            }
 
         }
 

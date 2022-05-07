@@ -1,12 +1,15 @@
 package com.example.acalculator
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CalculatorViewModel : ViewModel() {
-     val model = CalculatorModel()
+class CalculatorViewModel(application: Application) : AndroidViewModel(application) {
+     val model = Calculator(
+         CalculatorDatabase.getInstance(application).operationDao()
+     )
 
     fun getDisplayView () = model.display
 
@@ -22,17 +25,14 @@ class CalculatorViewModel : ViewModel() {
         return model.insertSymbolDelete(symbol)
     }
 
-    fun onClickEquals(): String {
-        return model.performOperation()
+    fun onClickEquals(onSaved: () -> Unit): String {
+        return model.performOperation(onSaved)
     }
 
     fun getHistory(callback: (List<OperationUi>) -> Unit ) {
-        model.getAllOperations { operations ->
-            val history = operations.map {
-                OperationUi(it.expression, it.result, it.timestamp)
-            }
-            CoroutineScope(Dispatchers.Main).launch {
-                callback(history)
+        CoroutineScope(Dispatchers.Main).launch {
+            model.getAllOperations {
+                callback
             }
         }
     }
